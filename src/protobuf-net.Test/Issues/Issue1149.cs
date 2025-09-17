@@ -2,9 +2,9 @@ using System;
 using ProtoBuf.Meta;
 using Xunit;
 
+#pragma warning disable CS0612 // Type or member is obsolete
 namespace ProtoBuf.Test.Issues
 {
-#pragma warning disable CS0612 // Type or member is obsolete
     public sealed class Issue1149
     {
         [Fact]
@@ -19,12 +19,18 @@ message SomeClass {
 }
 enum SomeEnum {
    option deprecated = true;
-   One = 0;
-   Two = 1;
-   Three = 2;
+   Zero = 0;
+   One = 1;
+   Two = 2;
 }
 message SomeOtherClass {
    string SomeOtherProperty = 1 [deprecated = true];
+}
+enum SomeOtherEnum {
+   Zero = 0;
+   One = 1;
+   Two = 2;
+   Three = 3 [deprecated = true];
 }
 ";
 
@@ -58,10 +64,21 @@ message SomeOtherClass {
         [Obsolete]
         public enum SomeEnum
         {
+            Zero,
             One,
             Two,
+        }
+
+        [ProtoContract]
+        public enum SomeOtherEnum
+        {
+            Zero,
+            One,
+            Two,
+            [Obsolete]
             Three,
         }
     }
-#pragma warning restore CS0612 // Type or member is obsolete
 }
+
+#pragma warning restore CS0612 // Type or member is obsolete
